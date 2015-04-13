@@ -86,8 +86,8 @@ public class SlackPipelineListener extends PipelineListener {
         sb.append(message.goServerUrl(rules.getGoServerHost()));
 
         return new SlackAttachment(sb.toString())
-                .fallback(String.format("%s %s %s", message.fullyQualifiedJobName(), verbFor(pipelineStatus), pipelineStatus).replaceAll("\\s+", " "))
-                .title(String.format("Stage [%s] %s %s", message.fullyQualifiedJobName(), verbFor(pipelineStatus), pipelineStatus).replaceAll("\\s+", " "));
+                .fallback(String.format("%s %s %s %s", message.fullyQualifiedJobName(), verbFor(pipelineStatus), pipelineStatus, remarkFor(pipelineStatus)).replaceAll("\\s+", " "))
+                .title(String.format("Stage [%s] %s %s %s", message.fullyQualifiedJobName(), verbFor(pipelineStatus), pipelineStatus, remarkFor(pipelineStatus)).replaceAll("\\s+", " "));
     }
 
     private String verbFor(PipelineStatus pipelineStatus) {
@@ -100,6 +100,26 @@ public class SlackPipelineListener extends PipelineListener {
                 return "has";
             case CANCELLED:
                 return "was";
+            default:
+                return "";
+        }
+    }
+
+    // More fun for later.
+    //private static final String[] BROKEN_REMARKS = [
+    //    "(╯°□°)╯︵ ┻━┻", "Oops.", "ಠ_ಠ", "⊙﹏⊙", "⊙▃⊙", "ಠ╭╮ಠ", "ಥ_ಥ"
+    //];
+
+    //private static final String[] FIXED_REMARKS = [
+    //    "┬─┬﻿ ノ( ゜-゜ノ)", "Yay!", "ᕕ( ᐛ )ᕗ", "ʘ‿ʘ", "^‿^"
+    //];
+
+    private String remarkFor(PipelineStatus pipelineStatus) {
+        switch (pipelineStatus) {
+            case BROKEN:
+                return "(╯°□°)╯︵ ┻━┻";
+            case FIXED:
+                return "┬─┬﻿ ノ( ゜-゜ノ)";
             default:
                 return "";
         }
