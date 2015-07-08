@@ -14,7 +14,8 @@ CONTAINER="$IMAGE-container"
 docker build -t "$IMAGE" .
 docker run --name "$CONTAINER" "$IMAGE" bash -c "echo Doing nothing."
 mkdir -p target
-docker cp "$CONTAINER":/build/target/gocd-slack-notifier-1.1.jar target/
+rm -f target/gocd-slack-notifier-*.jar
+docker cp "$CONTAINER":/build/target/gocd-slack-notifier-*.jar target/
 
 docker rm "$CONTAINER"
 docker rmi "$IMAGE"
