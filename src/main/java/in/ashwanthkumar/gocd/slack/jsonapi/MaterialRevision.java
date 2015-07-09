@@ -14,7 +14,7 @@ public class MaterialRevision {
     static private final Pattern PIPELINE_REVISION_PATTERN =
         Pattern.compile("^([^/]+)/(\\d+)/.*");
     static private final Pattern GITHUB_MATERIAL_PATTERN =
-        Pattern.compile("^URL: git@github\\.com:([^,]+),.*");
+        Pattern.compile("^URL: git@github\\.com:(.+)\\.git,.*");
 
     private Logger LOG = Logger.getLoggerFor(MaterialRevision.class);
 
@@ -51,8 +51,10 @@ public class MaterialRevision {
         // Parse descriptions like:
         // "URL: git@github.com:faradayio/marius.git, Branch: master"
         Matcher matcher = GITHUB_MATERIAL_PATTERN.matcher(material.description);
-        if (!matcher.matches())
+        if (!matcher.matches()) {
+            LOG.info("Can't build URL for non-GitHub repo: " + material.description);
             return null;
+        }
         String org_and_repo = matcher.group(1);
 
         // Shorten our commit ID.
