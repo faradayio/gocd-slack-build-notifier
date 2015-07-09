@@ -101,9 +101,9 @@ public class SlackPipelineListener extends PipelineListener {
                     }
                     if (mod.comment != null) {
                         sb.append(mod.comment);
-                        sb.append(" ");
                     }
                     if (mod.userName != null) {
+                        sb.append(" - ");
                         sb.append(mod.userName);
                     }
                     sb.append("\n");
