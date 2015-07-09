@@ -13,10 +13,13 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.annotations.SerializedName;
+import com.thoughtworks.go.plugin.api.logging.Logger;
 
 import in.ashwanthkumar.gocd.slack.ruleset.Rules;
 
 public class History {
+    private Logger LOG = Logger.getLoggerFor(History.class);
+
     public static URL url(String pipelineName) throws MalformedURLException {
         return new URL(String.format("http://localhost:8153/go/api/pipelines/%s/history", pipelineName));
     }
@@ -55,10 +58,15 @@ public class History {
      * Find the most recent run of the specified stage _before_ this one.
      */
     public Stage previousRun(int pipelineCounter, String stageName, int stageCounter) {
+        LOG.info(String.format("Looking for stage before %d/%s/%d",
+                               pipelineCounter, stageName, stageCounter));
         for (int i = pipelines.length - 1; i >= 0; i--) {
             Pipeline pipeline = pipelines[i];
             for (int j = pipeline.stages.length - 1; j >= 0; j--) {
                 Stage stage = pipeline.stages[j];
+                LOG.info(String.format("Checking %d/%s/%d",
+                                       pipeline.counter, stage.name, stage.counter));
+
                 if (stage.name == stageName) {
 
                     // Same pipeline run, earlier instance of stage.
