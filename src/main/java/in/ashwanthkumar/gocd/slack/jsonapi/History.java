@@ -60,14 +60,14 @@ public class History {
     public Stage previousRun(int pipelineCounter, String stageName, int stageCounter) {
         LOG.info(String.format("Looking for stage before %d/%s/%d",
                                pipelineCounter, stageName, stageCounter));
-        for (int i = pipelines.length - 1; i >= 0; i--) {
+        for (int i = 0; i < pipelines.length; i++) {
             Pipeline pipeline = pipelines[i];
-            for (int j = pipeline.stages.length - 1; j >= 0; j--) {
+            for (int j = 0; j < pipeline.stages.length; j++) {
                 Stage stage = pipeline.stages[j];
                 LOG.info(String.format("Checking %d/%s/%d",
                                        pipeline.counter, stage.name, stage.counter));
 
-                if (stage.name == stageName) {
+                if (stage.name.equals(stageName)) {
 
                     // Same pipeline run, earlier instance of stage.
                     if (pipeline.counter == pipelineCounter &&
