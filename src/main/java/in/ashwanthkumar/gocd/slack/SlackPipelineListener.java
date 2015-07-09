@@ -95,16 +95,16 @@ public class SlackPipelineListener extends PipelineListener {
                 sb.append(change.material.description);
                 sb.append("\n");
                 for (Modification mod : change.modifications) {
-                    if (mod.userName != null) {
-                        sb.append(mod.userName);
-                        sb.append(": ");
-                    }
                     if (mod.revision != null) {
                         sb.append(mod.revision);
-                        sb.append(" ");
+                        sb.append(": ");
                     }
                     if (mod.comment != null) {
                         sb.append(mod.comment);
+                        sb.append(" ");
+                    }
+                    if (mod.userName != null) {
+                        sb.append(mod.userName);
                     }
                     sb.append("\n");
                 }
