@@ -46,7 +46,10 @@ public class MaterialRevision {
     public String modificationUrl(Modification modification) {
         if (material.type != "Git" || material.description == null
             || modification.revision == null)
+        {
+            LOG.info(String.format("Can't build URL for modification (%s)/(%s)/(%s)"));
             return null;
+        }
 
         // Parse descriptions like:
         // "URL: git@github.com:faradayio/marius.git, Branch: master"
