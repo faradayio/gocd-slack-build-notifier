@@ -11,7 +11,7 @@ public class Modification {
     @SerializedName("comment")
     public String comment;
 
-    @SerializedName("userName")
+    @SerializedName("user_name")
     public String userName;
 
     //"modified_time": 1436365681065,
