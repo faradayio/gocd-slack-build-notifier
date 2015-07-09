@@ -58,7 +58,7 @@ public class History {
         for (int i = pipelines.length - 1; i >= 0; i--) {
             Pipeline pipeline = pipelines[i];
             for (int j = pipeline.stages.length - 1; j >= 0; j--) {
-                Stage stage = pipeline.stages[i];
+                Stage stage = pipeline.stages[j];
                 if (stage.name == stageName) {
 
                     // Same pipeline run, earlier instance of stage.
