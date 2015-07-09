@@ -11,7 +11,7 @@ import com.thoughtworks.go.plugin.api.logging.Logger;
 
 public class MaterialRevision {
     static private final Pattern PIPELINE_REVISION_PATTERN =
-        Pattern.compile("^([^/]+)/(\\d+)");
+        Pattern.compile("^([^/]+)/(\\d+)/.*");
 
     private Logger LOG = Logger.getLoggerFor(MaterialRevision.class);
 
