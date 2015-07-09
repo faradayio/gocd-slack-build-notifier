@@ -1,28 +1,16 @@
 package in.ashwanthkumar.gocd.slack;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import com.google.gson.annotations.SerializedName;
+import com.thoughtworks.go.plugin.api.logging.Logger;
+
 import in.ashwanthkumar.gocd.slack.jsonapi.History;
 import in.ashwanthkumar.gocd.slack.jsonapi.Pipeline;
 import in.ashwanthkumar.gocd.slack.jsonapi.Stage;
 import in.ashwanthkumar.gocd.slack.ruleset.Rules;
-
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.annotations.SerializedName;
-
-import com.thoughtworks.go.plugin.api.logging.Logger;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import javax.xml.bind.DatatypeConverter;
 
 public class GoNotificationMessage {
     private Logger LOG = Logger.getLoggerFor(GoNotificationMessage.class);

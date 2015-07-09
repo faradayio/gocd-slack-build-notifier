@@ -1,21 +1,20 @@
 package in.ashwanthkumar.gocd.slack.jsonapi;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.xml.bind.DatatypeConverter;
+
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.annotations.SerializedName;
 
 import in.ashwanthkumar.gocd.slack.ruleset.Rules;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import javax.xml.bind.DatatypeConverter;
 
 public class History {
     public static URL url(String pipelineName) throws MalformedURLException {
