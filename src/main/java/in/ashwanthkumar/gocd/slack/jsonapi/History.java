@@ -50,5 +50,30 @@ public class History {
 
     @SerializedName("pipelines")
     public Pipeline[] pipelines;
+
+    /**
+     * Find the most recent run of the specified stage _before_ this one.
+     */
+    public Stage previousRun(int pipelineCounter, String stageName, int stageCounter) {
+        for (int i = pipelines.length - 1; i >= 0; i--) {
+            Pipeline pipeline = pipelines[i];
+            for (int j = pipeline.stages.length - 1; j >= 0; j--) {
+                Stage stage = pipeline.stages[i];
+                if (stage.name == stageName) {
+
+                    // Same pipeline run, earlier instance of stage.
+                    if (pipeline.counter == pipelineCounter &&
+                        stage.counter < stageCounter)
+                        return stage;
+
+                    // Previous pipeline run.
+                    if (pipeline.counter < pipelineCounter)
+                        return stage;
+                }
+            }
+        }
+        // Not found.
+        return null;
+    }
 }
 
