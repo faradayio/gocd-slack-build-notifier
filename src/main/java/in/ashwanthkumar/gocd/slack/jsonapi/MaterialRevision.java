@@ -44,7 +44,7 @@ public class MaterialRevision {
      * the containing MaterialRevision.)
      */
     public String modificationUrl(Modification modification) {
-        if (material.type != "Git" || material.description == null
+        if (!material.type.equals("Git") || material.description == null
             || modification.revision == null)
         {
             LOG.info(String.format("Can't build URL for modification (%s)/(%s)/(%s)",
