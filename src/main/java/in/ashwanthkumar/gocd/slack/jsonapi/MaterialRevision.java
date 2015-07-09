@@ -47,7 +47,9 @@ public class MaterialRevision {
         if (material.type != "Git" || material.description == null
             || modification.revision == null)
         {
-            LOG.info(String.format("Can't build URL for modification (%s)/(%s)/(%s)"));
+            LOG.info(String.format("Can't build URL for modification (%s)/(%s)/(%s)",
+                                   material.type, material.description,
+                                   modification.revision));
             return null;
         }
 
