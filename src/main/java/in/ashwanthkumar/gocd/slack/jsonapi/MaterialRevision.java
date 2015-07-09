@@ -13,6 +13,8 @@ import com.thoughtworks.go.plugin.api.logging.Logger;
 public class MaterialRevision {
     static private final Pattern PIPELINE_REVISION_PATTERN =
         Pattern.compile("^([^/]+)/(\\d+)/.*");
+    static private final Pattern GITHUB_MATERIAL_PATTERN =
+        Pattern.compile("^URL: git@github\\.com:([^,]+),.*");
 
     private Logger LOG = Logger.getLoggerFor(MaterialRevision.class);
 
@@ -32,6 +34,35 @@ public class MaterialRevision {
     public boolean isPipeline() {
         return material.isPipeline();
     }
+
+    /**
+     * Return a URL pointing to more information about one of our
+     * modifications, if we can figure out how to generate one.  It's an
+     * error to call us with a modification that isn't part of this
+     * MaterialRevision.  (This is implemented this way because
+     * Modification objects are deserialized without any back-pointers to
+     * the containing MaterialRevision.)
+     */
+    public String modificationUrl(Modification modification) {
+        if (material.type != "Git" || material.description == null
+            || modification.revision == null)
+            return null;
+
+        // Parse descriptions like:
+        // "URL: git@github.com:faradayio/marius.git, Branch: master"
+        Matcher matcher = GITHUB_MATERIAL_PATTERN.matcher(material.description);
+        if (!matcher.matches())
+            return null;
+        String org_and_repo = matcher.group(1);
+
+        // Shorten our commit ID.
+        String commit = modification.revision;
+        if (commit.length() > 6)
+            commit =  commit.substring(0, 6);
+
+        return "https://github.com/" + org_and_repo + "/commit/" + commit;
+    }
+
 
     /**
      * Collect all changed MaterialRevision objects, walking changed
