@@ -45,7 +45,10 @@ public class MaterialRevision {
         }
 
         if (!isPipeline()) {
-            outChanges.add(this);
+            // Add this change if somebody hasn't added it already (which
+            // can happen in complex pipelines).
+            if (!outChanges.contains(this))
+                outChanges.add(this);
         } else {
             // Recursively walk pipeline.  We're not entirely sure what it
             // would mean to have multiple associated modifications with
