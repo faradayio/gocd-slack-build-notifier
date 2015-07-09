@@ -151,12 +151,16 @@ public class GoNotificationMessage {
             return;
         }
 
-        // Figure out whether the previous stage passed or failed.
+        // Figure out whether the previous run of this stage passed or failed.
         Stage previous = history.previousRun(Integer.parseInt(pipeline.counter),
                                              pipeline.stage.name,
                                              Integer.parseInt(pipeline.stage.counter));
-        if (previous == null)
+        if (previous == null) {
+            LOG.info("Couldn't find any previous run of " +
+                     pipeline.name + "/" + pipeline.counter + "/" +
+                     pipeline.stage.name + "/" + pipeline.stage.counter);
             return;
+        }
         String previousResult = previous.result.toUpperCase();
 
         // Fix up our build status.  This is slightly asymmetrical, because
