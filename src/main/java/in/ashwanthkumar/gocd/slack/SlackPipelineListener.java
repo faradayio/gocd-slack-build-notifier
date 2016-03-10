@@ -62,8 +62,6 @@ public class SlackPipelineListener extends PipelineListener {
 
     @Override
     public void onCancelled(PipelineRule rule, GoNotificationMessage message) throws Exception {
-        updateSlackChannel(rule.getChannel());
-        slack.push(slackAttachment(message, PipelineStatus.CANCELLED));
     }
 
     private SlackAttachment slackAttachment(GoNotificationMessage message, PipelineStatus pipelineStatus) throws URISyntaxException {
@@ -84,7 +82,6 @@ public class SlackPipelineListener extends PipelineListener {
             sb.append("(Couldn't fetch build details; see server log.) ");
             LOG.warn("Couldn't fetch build details", e);
         }
-        sb.append("See details - ");
         sb.append(message.goServerUrl(rules.getGoServerHost()));
         sb.append("\n");
 
@@ -92,19 +89,7 @@ public class SlackPipelineListener extends PipelineListener {
         try {
             List<MaterialRevision> changes = message.fetchChanges(rules);
             for (MaterialRevision change : changes) {
-                sb.append(change.material.description);
-                sb.append("\n");
                 for (Modification mod : change.modifications) {
-                    String url = change.modificationUrl(mod);
-                    if (url != null) {
-                        // This would be nicer if our Slack library allowed
-                        // us to use formatted attachements.
-                        sb.append(url);
-                        sb.append(" ");
-                    } else if (mod.revision != null) {
-                        sb.append(mod.revision);
-                        sb.append(": ");
-                    }
                     String comment = mod.summarizeComment();
                     if (comment != null) {
                         sb.append(comment);
